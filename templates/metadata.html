@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>📊 File Metadata</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom right, #eef2f3, #cfd9df);
+      padding: 40px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 70px;
+      margin-bottom: 40px;
+      color: #2c3e50;
+    }
+
+    table {
+      width: 80%;
+      margin: 0 auto;
+      border-collapse: collapse;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background-color: #598392;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    a{
+      color: #598392;
+      text-decoration: none;
+    }
+
+    a:hover {
+      /* text-decoration: underline; */
+      color: #124559;
+    }
+  </style>
+</head>
+<body>
+  <h1> File Metadata</h1>
+  <table>
+    <tr>
+      <th>Filename</th>
+      <th>Size</th>
+      <th>Path</th>
+      <th>Last Modified</th>
+    </tr>
+    {% for file in metadata %}
+        <tr>
+            <td>{{ file.name }}</td>
+            <td>{{ file.size }}</td>
+            <td>{{ file.path }}</td>
+            <td>{{ file.last_modified }}</td>
+        </tr>
+        {% endfor %}
+  </table>
+
+  <br>
+  <a href="/">&larr; Back to Home</a>
+</body>
+</html>

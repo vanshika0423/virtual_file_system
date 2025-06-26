@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Local File Actions</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom right, #eef2f3, #cfd9df);
+    padding: 40px;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 70px;
+    color: #2c3e50;
+    margin-bottom: 40px;
+  }
+
+  .button-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 40px;
+  }
+
+  button {
+    padding: 14px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    background-color: #598392;
+    color: white;
+    cursor: pointer;
+    min-width: 180px;
+  }
+
+  button:hover {
+    background-color: #124559 ;
+  }
+
+  #treeView {
+    text-align: left;
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px #ccc;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 15px;
+  }
+
+  ul {
+    list-style-type: none;
+    padding-left: 20px;
+  }
+
+  li {
+    margin: 5px 0;
+  }
+
+  h2 {
+    font-size: 24px;
+    margin-top: 60px;
+  }
+  a{
+    color: #598392;
+    text-decoration: none;
+  }
+  a:hover {
+      /* text-decoration: underline; */
+      color: #124559;
+  }
+</style>
+
+</head>
+
+<body>
+
+  <h1>Manage Local Files</h1>
+
+  <button onclick="createFile()">Create File</button>
+  <button onclick="createFolder()">Create Folder</button>
+  <button onclick="fetch('/restoreall', { method: 'POST' }).then(r => r.text()).then(alert)">Restore Files</button>
+  <button onclick="downloadFile()">Download File from Cloud</button>
+  <button onclick="deleteLocal()">Delete from Local</button>
+  <button onclick="deleteCloud()">Delete from Cloud</button>
+
+  <h2>📁 Current Folder Structure</h2>
+  <div id="treeView">Loading...</div>
+
+  <script>
+    function createFile() {
+      const fileName = prompt("Enter file path (e.g. /demo/myfile.txt):");
+      if (fileName) {
+        fetch(`/create-file-api?path=${encodeURIComponent(fileName)}`)
+          .then(res => res.text())
+          .then(msg => {
+            alert(msg);
+            loadStructure();
+          });
+      }
+    }
+
+    function createFolder() {
+      const folderName = prompt("Enter folder path (e.g. /demo):");
+      if (folderName) {
+        fetch(`/create-folder?path=${encodeURIComponent(folderName)}`)
+          .then(res => res.text())
+          .then(msg => {
+            alert(msg);
+            loadStructure();
+          });
+      }
+    }
+
+    function downloadFile() {
+      const fileName = prompt("Enter file path to download (e.g.file.txt):");
+      if (fileName) {
+        fetch(`/download?path=${encodeURIComponent(fileName)}`, { method: 'POST' })
+          .then(res => res.text())
+          .then(msg => {
+            alert(msg);
+            loadStructure();
+          });
+      }
+    }
+
+    function loadStructure() {
+      fetch('/filesystem')
+        .then(res => res.json())
+        .then(data => {
+          console.log("Loaded structure:", data);
+          document.getElementById('treeView').innerHTML = renderTree(data);
+        });
+    }
+
+    function renderTree(node, indent = 0, path = '') {
+      let html = "<ul>";
+      for (const key in node) {
+        const fullPath = path + '/' + key;
+        const id = btoa(fullPath); // unique ID
+
+        if (typeof node[key] === "object") {
+          html += `
+            <li>
+              <span style="cursor:pointer;" onclick="toggleFolder('${id}', this)">
+                📁 <strong>${key}</strong>
+              </span>
+              <div id="${id}" style="margin-left: 20px; display: none;">
+                ${renderTree(node[key], indent + 1, fullPath)}
+              </div>
+            </li>
+          `;
+        } else {
+          html += `<li>📄 <span style="cursor:pointer; color:#2563eb;" onclick="openEditor('${fullPath}')">${key}</span></li>`;
+        }
+      }
+      html += "</ul>";
+      return html;
+    }
+
+   
+    function toggleFolder(id, el) {
+      const div = document.getElementById(id);
+      const isHidden = div.style.display === "none";
+      div.style.display = isHidden ? "block" : "none";
+      el.innerHTML = `${isHidden ? '▼' : '📁'} <strong>${el.textContent.trim().slice(2)}</strong>`;
+    }
+
+
+
+    function editFile(path) {
+      fetch(`/read-file?path=${encodeURIComponent(path)}`)
+        .then(res => res.text())
+        .then(content => {
+          const newContent = prompt(`Edit content of ${path}:`, content);
+          if (newContent !== null) {
+            fetch(`/write-file?path=${encodeURIComponent(path)}&content=${encodeURIComponent(newContent)}`)
+              .then(res => res.text())
+              .then(alert)
+              .then(loadStructure);
+          }
+        });
+    }
+
+
+    function deleteLocal() {
+      const fileName = prompt("Enter path to delete from LOCAL (e.g. /demo/file.txt):");
+      if (fileName) {
+        fetch(`/delete-local?path=${encodeURIComponent(fileName)}`, { method: 'POST' })
+          .then(res => res.text())
+          .then(msg => {
+            alert(msg);
+            loadStructure();
+          });
+      }
+    }
+
+    function deleteCloud() {
+      const fileName = prompt("Enter file name to delete from CLOUD (e.g. file.txt):");
+      if (fileName) {
+        fetch(`/delete-cloud?path=${encodeURIComponent(fileName)}`, { method: 'POST' })
+          .then(res => res.text())
+          .then(msg => {
+            alert(msg);
+            loadStructure();
+          });
+      }
+    }
+
+
+    // Load structure on first load
+    loadStructure();
+
+    let currentEditPath = "";
+
+        function openEditor(path) {
+          fetch(`/read-file?path=${encodeURIComponent(path)}`)
+            .then(res => {
+              if (!res.ok) throw new Error("File not found.");
+              return res.text();
+            })
+            .then(content => {
+              currentEditPath = path;
+              document.getElementById('editorPath').textContent = path;
+              document.getElementById('editorContent').value = content;
+              document.getElementById('editorModal').style.display = 'block';
+              document.getElementById('modalBackdrop').style.display = 'block';
+            })
+            .catch(err => alert(err));
+        }
+
+        function closeEditor() {
+          document.getElementById('editorModal').style.display = 'none';
+          document.getElementById('modalBackdrop').style.display = 'none';
+        }
+
+        function saveFile() {
+          const content = document.getElementById('editorContent').value;
+          fetch(`/write-file?path=${encodeURIComponent(currentEditPath)}&content=${encodeURIComponent(content)}`)
+            .then(res => res.text())
+            .then(msg => {
+              alert(msg);
+              closeEditor();
+              loadStructure();
+            });
+        }
+
+  </script>
+    <div id="editorModal" style="display:none; position:fixed; top:20%; left:50%; transform:translateX(-50%);
+      background:#fff; padding:20px; border-radius:8px; box-shadow:0 0 20px rgba(0,0,0,0.3); z-index:1000;">
+      <h3 id="editorPath" style="margin-top:0;"></h3>
+      <textarea id="editorContent" rows="10" style="width:100%; font-family:monospace;"></textarea><br><br>
+      <button onclick="saveFile()">💾 Save</button>
+      <button onclick="closeEditor()">Cancel</button>
+    </div>
+    <div id="modalBackdrop" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,0.4); z-index:999;" onclick="closeEditor()"></div>
+<br>
+ <a href="/">&larr; Back to Home</a>
+</body>
+</html>

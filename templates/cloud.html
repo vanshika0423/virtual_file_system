@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cloud Storage</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom right, #eef2f3, #cfd9df);
+      margin: 0;
+      padding: 40px 0;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 70px;
+      color: #2c3e50;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      background-color: #ffffff;
+      margin: 12px 0;
+      padding: 16px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    li:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    li a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #598392;
+      font-size: 18px;
+    }
+
+    .back {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .back a {
+      text-decoration: none;
+      color:#598392 ;
+    }
+
+    .back a:hover {
+      color: #2c3e50;
+    }
+  </style>
+</head>
+<body>
+  <h1> Files in Google Drive</h1>
+
+  <div class="container">
+    <ul>
+      {% for file in cloud_files %}
+        <li>📄<a href="{{ file.url }}" target="_blank">{{ file.name }}</a></li>
+      {% endfor %}
+    </ul>
+
+    <div class="back">
+      <a href="/">← Back to Home</a>
+    </div>
+  </div>
+</body>
+</html>
