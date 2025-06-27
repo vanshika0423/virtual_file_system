@@ -154,7 +154,6 @@ def append(path, content):
     else:
         print(f"File not found in memory: {path}")
 
-
 def read(path):
     parts = path.strip('/').split('/')
     parent = get_nested(parts)
@@ -184,8 +183,6 @@ def delete(path):
         print(f"Deleted: {path}")
     else:
         print(f"Path not found in memory: {path}")
-
-
 
 def list_dir(path):
     parts = path.strip('/').split('/') if path.strip('/') else []

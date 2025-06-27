@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hybrid File Management Landing Page</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fff;
+      color: #111;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      border-bottom: 1px solid #e5e7eb;
+      background-color: #aec3b0;
+    }
+
+    .logo img {
+      width: 250px;
+      height: 60px;
+      border-radius: 50%;
+      background: none;          /* removes white oval */
+      border-radius: 0;          /* removes ellipse shape */
+      padding: 0;                /* optional: remove extra space */
+      display: inline-block;     /* optional: inline-block for better alignment */
+    }
+
+    nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #111;
+      font-weight: 500;
+    }
+
+    nav .btn {
+      margin-left: 20px;
+      padding: 8px 16px;
+      background-color: #598392;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      /* padding: 60px 40px; */
+      background-color: #124559;
+      color: white;
+      flex-wrap: wrap;
+    }
+
+    .hero-left {
+      flex: 1;
+      min-width: 300px;
+      max-width: 50%;
+    }
+
+    .hero-left h1 {
+      font-size: 3rem;
+      font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+
+    .hero-left p {
+      font-size: 1.1rem;
+      color: #d1d5db;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .hero-right {
+      flex: 1.5;
+      min-width: 300px;
+      display: flex;
+      /* justify-content: center; */
+      /* margin-top: 20px; */
+    }
+
+    .hero-right img {
+      width: 90%;
+      max-width: 600px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    .section-light {
+      text-align: center;
+      padding: 60px 20px;
+      background-color: #aec3b0;
+    }
+
+    .section-light h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .section-light p {
+      font-size: 1rem;
+      max-width: 600px;
+      margin: 0 auto;
+      color: #555;
+    }
+
+    .billing-toggle {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 30px;
+      font-size: 14px;
+    }
+
+    .plans {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
+      padding: 60px 20px;
+      max-width: 1200px;
+      margin: auto;
+      
+    }
+
+    .local {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 0 0 1px #e5e5e5;
+      max-width: 300px;
+      flex: 1;
+    }
+
+    .local a img{
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3); 
+      transition: transform 0.3s ease, opacity 0.3s ease;
+
+    }
+    .local a:hover img {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+
+    .plan-card h3 {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .plan-card h2 {
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .plan-card .price {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .plan-card .price span {
+      font-size: 14px;
+      color: #6e6d7a;
+    }
+
+    .plan-card .btn {
+      display: block;
+      width: 100%;
+      background-color: #2563eb;
+      color: white;
+      padding: 12px;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .plan-card .purchase-link {
+      color: #2563eb;
+      font-weight: 500;
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    @media screen and (max-width: 900px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .hero-left, .hero-right {
+        max-width: 100%;
+      }
+
+      .hero-left {
+        margin-bottom: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+        <img src="logo.png" alt="logo">
+    </div>
+
+    <nav>
+      <a href="#" class="btn" >Get started</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-left" style="padding: 20px;">
+      <h1>From Local to Cloud,</h1>
+      <h1>in one click</h1>
+      <p>
+        Everything you need to manage your files, all in one place. Our Hybrid File Management System integrates local storage with cloud features like backup, restore, and sync.
+      </p>
+    </div>
+    <div class="hero-right">
+      <video width="100%" height="auto" controls autoplay muted loop style=" box-shadow: 0 8px 20px rgba(0,0,0,0.3);">
+        <source src="video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+  </section>
+
+  <!-- Plan Introduction -->
+  <section class="section-light">
+    <h1>All the tools you need in one plan</h1>
+    <p>Store and share files. Sign and send documents. Seamlessly collaborate on creative media. All in one place.</p>
+  </section>
+
+
+  <!-- Existing Pricing Cards -->
+<section class="plans">
+  <div class="local">
+    <a><img src="local1.png"></a>
+  </div>
+  <div class="local">
+    <a><img src="metadata1.png"></a>
+  </div>
+  <div class="local">
+    <a><img src="cloud1.png"></a>
+  </div>
+</section>
+
+<!-- 🚀 New Feature Section -->
+<section style="background-color: #f9f9f9; padding: 60px 20px; text-align: center;">
+  <h2 style="font-size: 2rem; font-weight: 600; margin-bottom: 40px;">
+    Why teams love our Hybrid File System
+  </h2>
+
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; max-width: 1200px; margin: auto;">
+
+    <!-- Security -->
+    <div style="max-width: 250px;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#2563eb" viewBox="0 0 24 24">
+        <path d="M17 8V6a5 5 0 0 0-10 0v2H5v14h14V8h-2ZM9 6a3 3 0 0 1 6 0v2H9V6Zm8 14H7V10h10v10Zm-5-3a1.5 1.5 0 0 0 .75-2.791V12.5a.75.75 0 0 0-1.5 0v1.709A1.5 1.5 0 0 0 12 17Z"/>
+      </svg>
+      <h3 style="margin-top: 16px; font-size: 18px; font-weight: 600;">End-to-End File Security</h3>
+      <p style="margin-top: 8px; font-size: 15px; color: #333;">
+        All files are encrypted and stored securely, ensuring data is protected at every level.
+      </p>
+    </div>
+
+    <!-- Backup -->
+    <div style="max-width: 250px;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#2563eb" viewBox="0 0 24 24">
+        <path d="M17.657 16H16v-2h1.657a3.5 3.5 0 0 0 .264-6.988A6.001 6.001 0 0 0 5.05 9.6a4.5 4.5 0 0 0 .45 8.9H9v-2H5.5a2.5 2.5 0 1 1 .262-4.988l.888.07.226-.859a4 4 0 1 1 7.775-1.763l.161.795.795.159a1.5 1.5 0 1 1-.305 2.963L14 12.98V16h3.657Z"/>
+        <path d="M13 17H9l4-4 4 4h-4v4h-2v-4Z"/>
+      </svg>
+      <h3 style="margin-top: 16px; font-size: 18px; font-weight: 600;">Reliable Cloud Backup</h3>
+      <p style="margin-top: 8px; font-size: 15px; color: #333;">
+        Auto-backup your selected files to Google Drive to ensure you're always protected.
+      </p>
+    </div>
+
+    <!-- Sync -->
+    <div style="max-width: 250px;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#2563eb" viewBox="0 0 24 24">
+        <path d="M16.707 5.293 14 8h6V2l-2.293 2.293A9.969 9.969 0 0 0 12 2C6.477 2 2 6.477 2 12h2a8 8 0 0 1 12.707-6.707ZM20 12a8 8 0 0 1-12.707 6.707L7.293 18.707 10 16H4v6l2.293-2.293A9.969 9.969 0 0 0 12 22c5.523 0 10-4.477 10-10h-2Z"/>
+      </svg>
+      <h3 style="margin-top: 16px; font-size: 18px; font-weight: 600;">Smart Cloud Sync</h3>
+      <p style="margin-top: 8px; font-size: 15px; color: #333;">
+        Sync local and cloud files seamlessly with real-time updates across all devices.
+      </p>
+    </div>
+
+    <!-- Deduplication -->
+    <div style="max-width: 250px;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#2563eb" viewBox="0 0 24 24">
+        <path d="M12 4c-4.418 0-8 3.582-8 8h2a6 6 0 0 1 6-6V4Zm0 16a8 8 0 0 0 8-8h-2a6 6 0 0 1-6 6v2Zm-4-8 4-4v3h4v2h-4v3l-4-4Z"/>
+      </svg>
+      <h3 style="margin-top: 16px; font-size: 18px; font-weight: 600;">Deduplication & Restore</h3>
+      <p style="margin-top: 8px; font-size: 15px; color: #333;">
+        Automatically eliminate duplicates and restore folders in a single click.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<footer style="background-color: #124559; color: #f3f4f6; padding: 60px 20px;">
+  <div style="max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; gap: 40px; justify-content: space-between;">
+
+    <!-- Column 1 -->
+    <div style="min-width: 180px;">
+      <h4 style="margin-bottom: 16px; font-size: 16px;">HybridFS</h4>
+      <ul style="list-style: none; padding: 0;">
+        <li><a href="#" style="color: #ccc; text-decoration: none;">About</a></li>
+        <li><a href="#" style="color: #ccc; text-decoration: none;">Blog</a></li>
+        <li><a href="#" style="color: #ccc; text-decoration: none;">Careers</a></li>
+      </ul>
+    </div>
+
+    <!-- Column 2 -->
+    <div style="min-width: 180px;">
+      <h4 style="margin-bottom: 16px; font-size: 16px;">Product</h4>
+      <ul style="list-style: none; padding: 0;">
+        <li><a href="#" style="color: #ccc; text-decoration: none;">Features</a></li>
+        <li><a href="#" style="color: #ccc; text-decoration: none;">Pricing</a></li>
+        <li><a href="#" style="color: #ccc; text-decoration: none;">Security</a></li>
+      </ul>
+    </div>
+
+    <!-- Column 3 -->
+    <div style="min-width: 180px;">
+      <h4 style="margin-bottom: 16px; font-size: 16px;">Resources</h4>
+      <ul style="list-style: none; padding: 0;">
+        <li><a href="#" style="color: #ccc; text-decoration: none;">Help Center</a></li>
+        <li><a href="#" style="color: #ccc; text-decoration: none;">API Docs</a></li>
+        <li><a href="#" style="color: #ccc; text-decoration: none;">Community</a></li>
+      </ul>
+    </div>
+
+    <!-- Column 4 -->
+    <div style="min-width: 180px;">
+      <h4 style="margin-bottom: 16px; font-size: 16px;">Legal</h4>
+      <ul style="list-style: none; padding: 0;">
+        <li><a href="#" style="color: #ccc; text-decoration: none;">Privacy Policy</a></li>
+        <li><a href="#" style="color: #ccc; text-decoration: none;">Terms of Service</a></li>
+        <li><a href="#" style="color: #ccc; text-decoration: none;">Cookies</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Social & Attribution -->
+  <div style="text-align: left; margin-top: 80px; margin-left :110px; ">
+    <!-- Social Icons -->
+    <div style="margin-bottom: 16px;">
+      <a href="#" style="margin: 0 10px; color: #ccc;" aria-label="Facebook">
+        <svg width="24" height="24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.5 9.9v-7h-2v-3h2v-2.2c0-2 1.2-3.2 3-3.2.9 0 1.8.2 1.8.2v2h-1c-1 0-1.3.6-1.3 1.2V12h2.3l-.4 3H14v7A10 10 0 0 0 22 12z"/></svg>
+      </a>
+      <a href="#" style="margin: 0 10px; color: #ccc;" aria-label="Twitter">
+        <svg width="24" height="24" fill="currentColor"><path d="M19.6 7.2c.01.2.01.4.01.6 0 6.1-4.6 13.2-13.2 13.2-2.6 0-5-.8-7-2.2h1.5a9.2 9.2 0 0 0 5.7-2 4.6 4.6 0 0 1-4.3-3.2h.7a4.5 4.5 0 0 0 2-.1A4.6 4.6 0 0 1 1.6 9v-.1a4.5 4.5 0 0 0 2.1.6A4.6 4.6 0 0 1 1.5 5c0-.8.2-1.5.5-2.1a13 13 0 0 0 9.4 4.8c-.1-.3-.1-.6-.1-.9A4.6 4.6 0 0 1 17 4.5a9.1 9.1 0 0 0 2.9-1.1 4.6 4.6 0 0 1-2 2.5 9.2 9.2 0 0 0 2.6-.7c-.6.8-1.2 1.6-2 2Z"/></svg>
+      </a>
+      <a href="#" style="margin: 0 10px; color: #ccc;" aria-label="LinkedIn">
+        <svg width="24" height="24" fill="currentColor"><path d="M19 0h-14c-2.8 0-5 2.2-5 5v14c0 2.8 2.2 5 5 5h14c2.8 0 5-2.2 5-5v-14c0-2.8-2.2-5-5-5zm-11 19h-3v-9h3v9zm-1.5-10.3c-1 0-1.7-.8-1.7-1.7 0-1 .8-1.7 1.7-1.7 1 0 1.7.8 1.7 1.7 0 1-.8 1.7-1.7 1.7zm13.5 10.3h-3v-4.8c0-1.2-.4-2-1.5-2-1 0-1.5.7-1.8 1.3-.1.2-.1.5-.1.8v4.7h-3v-9h3v1.2c.4-.6 1.1-1.5 2.7-1.5 2 0 3.5 1.3 3.5 4.1v5.2z"/></svg>
+      </a>
+    </div>
+
+    <!-- Attribution -->
+    <div style="font-size: 14px; color: #aaa;">
+
+      © 2025 HybridFS. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+
+
+</body>
+</html>
